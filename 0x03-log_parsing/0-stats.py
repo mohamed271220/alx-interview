@@ -7,7 +7,12 @@ import sys
 
 def print_stats(dict_sc, total_file_size):
     """
-    Print the statistics of file size and status counts
+    Method to print stats
+    Args:
+        dict_sc: status code dictionary
+        total_file_size: total file size
+    Returns:
+        None
     """
     print("File size: {}".format(total_file_size))
     for key, val in sorted(dict_sc.items()):
