@@ -5,7 +5,7 @@ Log parsing script
 import sys
 
 
-def print_stats(file_size, status_counts):
+def print_stats(dict_sc, total_file_size):
     """
     Print the statistics of file size and status counts
     """
