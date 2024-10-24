@@ -9,42 +9,44 @@ def print_stats(file_size, status_counts):
     """
     Print the statistics of file size and status counts
     """
-    print("File size: {}".format(file_size))
-    for status in sorted(status_counts.keys()):
-        if status_counts[status] > 0:
-            print("{}: {}".format(status, status_counts[status]))
+    print("File size: {}".format(total_file_size))
+    for key, val in sorted(dict_sc.items()):
+        if val != 0:
+            print("{}: {}".format(key, val))
 
 
-def main():
-    """
-    Main function to parse logs and compute metrics
-    """
-    file_size = 0
-    status_counts = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
-    line_count = 0
+total_file_size = 0
+code = 0
+counter = 0
+dict_sc = {
+    "200": 0,
+    "301": 0,
+    "400": 0,
+    "401": 0,
+    "403": 0,
+    "404": 0,
+    "405": 0,
+    "500": 0,
+}
 
-    try:
-        for line in sys.stdin:
-            line_count += 1
-            parts = line.split()
-            if len(parts) > 6:
-                try:
-                    file_size += int(parts[-1])
-                    status_code = int(parts[-2])
-                    if status_code in status_counts:
-                        status_counts[status_code] += 1
-                except (ValueError, IndexError):
-                    pass
+try:
+    for line in sys.stdin:
+        parsed_line = line.split()  # ✄ trimming
+        parsed_line = parsed_line[::-1]  # inverting
 
-            if line_count % 10 == 0:
-                print_stats(file_size, status_counts)
+        if len(parsed_line) > 2:
+            counter += 1
 
-    except KeyboardInterrupt:
-        print_stats(file_size, status_counts)
-        raise
+            if counter <= 10:
+                total_file_size += int(parsed_line[0])  # file size
+                code = parsed_line[1]  # status code
 
-    print_stats(file_size, status_counts)
+                if code in dict_sc.keys():
+                    dict_sc[code] += 1
 
+            if counter == 10:
+                print_stats(dict_sc, total_file_size)
+                counter = 0
 
-if __name__ == "__main__":
-    main()
+finally:
+    print_stats(dict_sc, total_file_size)
