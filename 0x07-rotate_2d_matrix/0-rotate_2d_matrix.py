@@ -21,4 +21,3 @@ def rotate_2d_matrix(matrix):
         for j in range(rows):
             matrix[i][j] = new_matrix[i][j]
     return matrix
-
