@@ -17,10 +17,10 @@ def rotate_2d_matrix(matrix):
     for i in range(cols):
         for j in range(rows):
             new_matrix[j][cols - 1 - i] = matrix[i][j]
-    # for i in range(cols):
-    #     for j in range(rows):
-    #         matrix[i][j] = new_matrix[i][j]
-    return new_matrix
+    for i in range(cols):
+        for j in range(rows):
+            matrix[i][j] = new_matrix[i][j]
+    return matrix
 
 
 """ ts code
